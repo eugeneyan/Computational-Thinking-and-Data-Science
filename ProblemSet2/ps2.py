@@ -345,6 +345,8 @@ def showPlot1(title, x_label, y_label):
     pylab.ylabel(y_label)
     pylab.show()
 
+showPlot1('Total Time Taken', 'Number of Robots', 'Time Taken')
+
     
 def showPlot2(title, x_label, y_label):
     """
@@ -373,12 +375,13 @@ def showPlot2(title, x_label, y_label):
 # 1) Write a function call to showPlot1 that generates an appropriately-labeled
 #     plot.
 #
-#       (... your call here ...)
+# showPlot1('Time It Takes 1 - 10 Robots To Clean 80% Of A Room ', 'Number of Robots', 'Time Taken')
 #
 
 #
 # 2) Write a function call to showPlot2 that generates an appropriately-labeled
 #     plot.
 #
-#       (... your call here ...)
+# showPlot2('Time It Takes Two Robots To Clean 80% Of Variously Shaped Rooms ', 'Aspect Ratio', 'Time Taken')
+#
 #
