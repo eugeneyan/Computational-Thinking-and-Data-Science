@@ -92,13 +92,26 @@ edges = {1: [[2, (75.0, 60.0)], [4, (80.0, 65.0)], [3, (36.0, 0.0)], [5, (32.0, 
 # and what the constraints are
 #
 
-def bruteForceSearch(digraph, start, end, maxTotalDist, maxDistOutdoors):    
+def getDist(tempPath, digraph):
+    totalDist = 0
+    totalOutDist = 0
+    for i in range(len(tempPath) - 1):
+        source = tempPath[i]
+        for dist in digraph.edges[source]:
+            if tempPath[i+1] == dist[0]:
+                totalDist =+ dist[1][0]
+                totalOutDist += dist[1][1]
+
+    return (totalDist, totalOutDist)
+
+
+def bruteForceSearch(digraph, start, end, maxTotalDist, maxDistOutdoors):
     """
     Finds the shortest path from start to end using brute-force approach.
     The total distance travelled on the path must not exceed maxTotalDist, and
     the distance spent outdoor on this path must not exceed maxDistOutdoors.
 
-    Parameters: 
+    Parameters:
         digraph: instance of class Digraph or its subclass
         start, end: start & end building numbers (strings)
         maxTotalDist : maximum total distance on a path (integer)
@@ -108,16 +121,40 @@ def bruteForceSearch(digraph, start, end, maxTotalDist, maxDistOutdoors):
         start and end are numbers for existing buildings in graph
 
     Returns:
-        The shortest-path from start to end, represented by 
-        a list of building numbers (in strings), [n_1, n_2, ..., n_k], 
-        where there exists an edge from n_i to n_(i+1) in digraph, 
+        The shortest-path from start to end, represented by
+        a list of building numbers (in strings), [n_1, n_2, ..., n_k],
+        where there exists an edge from n_i to n_(i+1) in digraph,
         for all 1 <= i < k.
 
         If there exists no path that satisfies maxTotalDist and
         maxDistOutdoors constraints, then raises a ValueError.
     """
     #TODO
-    pass
+    start = Node(start)
+    end = Node(end)
+    s = [[start]]
+    shortest = None
+    shortestTotal = float('inf')
+
+    while len(s) != 0:
+        tempPath = s.pop()
+        lastNode = tempPath[len(tempPath) - 1]
+
+        if lastNode == end:
+            tempTotalDist, tempTotalOutDist = getDist(tempPath, digraph)
+            if tempTotalDist < shortestTotal and tempTotalDist <= maxTotalDist and tempTotalOutDist <= maxDistOutdoors:
+                shortest = tempPath
+                shortestTotal = tempTotalDist
+
+        for childNode in digraph.childrenOf(lastNode):
+            if childNode not in tempPath:
+                newPath = tempPath + [childNode]
+                s.append(newPath)
+
+    if shortest == None:
+        raise ValueError('bruteForceSearch: No Path Found')
+    else:
+        return [str(x) for x in shortest]
 
 #
 # Problem 4: Finding the Shorest Path using Optimized Search Method

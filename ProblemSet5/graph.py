@@ -157,3 +157,16 @@ print g.edges
 #a->c (14.0, 6.0)
 #b->c (3.0, 1.0)
 g.childrenOf(na)
+
+map1 = WeightedDigraph()
+n1 = Node('1')
+n2 = Node('2')
+n3 = Node('3')
+map1.addNode(n1)
+map1.addNode(n2)
+map1.addNode(n3)
+e1 = WeightedEdge(n1, n2, 10, 5)
+e2 = WeightedEdge(n2, n3, 8, 5)
+map1.addEdge(e1)
+map1.addEdge(e2)
+print map1
